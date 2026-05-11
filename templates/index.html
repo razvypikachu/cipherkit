@@ -1,6 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>It works.</h1>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-section-label">MODULES</div>
+        <nav class="tool-nav">
+            <a href="#" class="tool-link active">
+                <span class="tool-icon">#</span>
+                <div>
+                    <div>Hash Checker</div>
+                    <div class="tool-desc">MD5 / SHA256 / SHA512</div>
+                </div>
+            </a>
+            <a href="#" class="tool-link">
+                <span class="tool-icon">⬛</span>
+                <div>
+                    <div>Password Strength</div>
+                    <div class="tool-desc">Entropy analyzer</div>
+                </div>
+            </a>
+            <a href="#" class="tool-link">
+                <span class="tool-icon">⇌</span>
+                <div>
+                    <div>Encoder / Decoder</div>
+                    <div class="tool-desc">Base64 / Hex / URL</div>
+                </div>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="tool-panel">
+        <div class="tool-panel-header">
+            <span class="tool-panel-path">~/cipherkit/</span>
+            <span class="tool-panel-name">Hash Checker</span>
+        </div>
+        <div class="tool-panel-body">
+            <p>Select a tool from the sidebar.</p>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
