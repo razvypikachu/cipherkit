@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CipherKit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="logo-icon"></span>
+            <div>  
+                <div class="logo-name">CIPHERKIT</div>
+                <div class="logo-sub">SECURITY TOOLKIT v1.0</div>
+            </div>
+        </div>
+        <nav>
+            <a href="/" class="{{ 'active' if request.endpoint == 'index' }}">Lightweight Tools</a>
+            <a href="/advanced" class="{{ 'active' if request.endpoint == 'advanced' }}">Advanced Tools</a>
+            <a href="/about" class="{{ 'active' if request.endpoint == 'about' }}">About</a>
+            <a href="/contact" class="{{ 'active' if request.endpoint == 'contact' }}">Contact</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+</body>
+</html>
