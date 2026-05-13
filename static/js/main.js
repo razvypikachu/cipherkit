@@ -1,12 +1,12 @@
 let selectedAlgo = "MD5";
-document.quertSelectorAll(".algo-btn").forEach((btn) => {
+document.querySelectorAll(".algo-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-        document.quertSelectorAll(".algo-btn"),forEach(b=>b.classList.remove("active"));
+        document.querySelectorAll(".algo-btn").forEach(b=>b.classList.remove("active"));
         btn.classList.add("active");
         selectedAlgo = btn.dataset.algo;
     });
 });
-document.getElementById("hash-btn").addEventListener("click", async () => {
+document.getElementById("run-hash").addEventListener("click", async () => {
     const text = document.getElementById("hash-input").value;
     if (!text) return;
 
