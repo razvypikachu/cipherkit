@@ -32,7 +32,7 @@
     <div class="tool-panel">
         <div class="tool-panel-header">
             <span class="tool-panel-path">~/cipherkit/</span>
-            <span class="tool-panel-name">Hash Checker</span>
+            <span class="tool-panel-name" id="panel-title">Hash Checker</span>
         </div>
         <div class="tool-panel-body">
             <div class="tool-section" id="tool-hash">
@@ -63,7 +63,21 @@
                 </div>
             </div>
             <div class="tool-section" id="tool-encode" style="display:none;">
-                <p style="color: var(--text-dim);">Coming soon :3</p>
+                <div class="algo-selector">
+                    <button class="algo-btn active" data-format="base64">Base64</button>
+                    <button class="algo-btn" data-format="hex">Hex</button>
+                    <button class="algo-btn" data-format="url">URL</button>
+                </div>
+                <div class="mode-selector">
+                    <button class="mode-btn active" data-mode="encode">Encode</button>
+                    <button class="mode-btn" data-mode="decode">Decode</button>
+                </div>
+                <textarea id="encode-input" placeholder="Enter text..."></textarea>
+                <button class="run-btn" id="run-encode">RUN →</button>
+                <div id="encode-output" class="output-box" style="display:none;">
+                    <span class="output-label">Result:</span>
+                    <span id="encode-result"></span>
+                </div>
             </div>
         
         </div>

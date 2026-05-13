@@ -8,6 +8,8 @@ document.querySelectorAll(".tool-link").forEach(link => {
 
         document.querySelectorAll(".tool-section").forEach(s => s.style.display = "none");
         document.getElementById("tool-" + tool).style.display = "block";
+        const titles = { hash: "Hash Checker", password: "Password Strength", encode: "Encoder / Decoder" };
+        document.getElementById("panel-title").textContent = titles[tool];
     });
 });
 let selectedAlgo = "MD5";
@@ -64,4 +66,45 @@ passwordInput.addEventListener("input", () => {
         item.innerHTML = `<span style="color: ${c.pass ? "#4ade80" : "#ef4444"}">${c.pass ? "✓" : "✗"}</span> ${c.label}`;
         checklist.appendChild(item);
     });
+});
+let selectedFormat = "base64";
+let selectedMode = "encode";
+
+document.querySelectorAll("[data-format]").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-format]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedFormat = btn.dataset.format;
+    });
+});
+
+document.querySelectorAll("[data-mode]").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-mode]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedMode = btn.dataset.mode;
+    });
+});
+
+document.getElementById("run-encode").addEventListener("click", () => {
+    const text = document.getElementById("encode-input").value;
+    if (!text) return;
+
+    let result;
+    try {
+        if (selectedFormat === "base64") {
+            result = selectedMode === "encode" ? btoa(text) : atob(text);
+        } else if (selectedFormat === "hex") {
+            result = selectedMode === "encode"
+                ? Array.from(text).map(c => c.charCodeAt(0).toString(16).padStart(2, "0")).join(" ")
+                : text.split(" ").map(h => String.fromCharCode(parseInt(h, 16))).join("");
+        } else if (selectedFormat === "url") {
+            result = selectedMode === "encode" ? encodeURIComponent(text) : decodeURIComponent(text);
+        }
+    } catch {
+        result = "⚠ Invalid input for this operation";
+    }
+
+    document.getElementById("encode-result").textContent = result;
+    document.getElementById("encode-output").style.display = "block";
 });
