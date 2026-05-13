@@ -5,21 +5,21 @@
     <aside class="sidebar">
         <div class="sidebar-section-label">MODULES</div>
         <nav class="tool-nav">
-            <a href="#" class="tool-link active">
+            <a href="#" class="tool-link active" data-tool="hash">
                 <span class="tool-icon">#</span>
                 <div>
                     <div>Hash Checker</div>
                     <div class="tool-desc">MD5 / SHA256 / SHA512</div>
                 </div>
             </a>
-            <a href="#" class="tool-link">
+            <a href="#" class="tool-link" data-tool="password">
                 <span class="tool-icon">⬛</span>
                 <div>
                     <div>Password Strength</div>
                     <div class="tool-desc">Entropy analyzer</div>
                 </div>
             </a>
-            <a href="#" class="tool-link">
+            <a href="#" class="tool-link" data-tool="encode">
                 <span class="tool-icon">⇌</span>
                 <div>
                     <div>Encoder / Decoder</div>
@@ -35,17 +35,37 @@
             <span class="tool-panel-name">Hash Checker</span>
         </div>
         <div class="tool-panel-body">
-            <div class="algo-selector">
-                <button class="algo-btn active" data-algo="MD5">MD5</button>
-                <button class="algo-btn" data-algo="SHA256">SHA256</button>
-                <button class="algo-btn" data-algo="SHA512">SHA512</button>
+            <div class="tool-section" id="tool-hash">
+                <div class="algo-selector">
+                    <button class="algo-btn active" data-algo="MD5">MD5</button>
+                    <button class="algo-btn" data-algo="SHA256">SHA256</button>
+                    <button class="algo-btn" data-algo="SHA512">SHA512</button>
+                </div>
+                <textarea id="hash-input" placeholder="Enter text to hash..."></textarea>
+                <button class="run-btn" id="run-hash">HASH →</button>
+                <div id="hash-output" class="output-box" style="display:none;">
+                    <span class="output-label">Result:</span>
+                    <span id="hash-result"></span>
+                </div>
             </div>
-            <textarea id="hash-input" placeholder="Enter text to hash..."></textarea>
-            <button class="run-btn" id="run-hash">HASH →</button>
-            <div id="hash-output" class="output box" style="display:none;">
-                <span class="output-label">Result:</span>
-                <span id="hash-result"></span>
+            <div class="tool-section" id="tool-password" style="display:none;">
+                <input type="password" id="password-input" placeholder="Enter a password to analyze...">
+                <div id="password-result" style="display:none;">
+                    <div class="strength-bars">
+                        <div class="bar" id="bar-1"></div>
+                        <div class="bar" id="bar-2"></div>
+                        <div class="bar" id="bar-3"></div>
+                        <div class="bar" id="bar-4"></div>
+                        <div class="bar" id="bar-5"></div>
+                    </div>
+                    <div id="strength-label" class="strength-label"></div>
+                    <div class="checklist" id="checklist"></div>
+                </div>
             </div>
+            <div class="tool-section" id="tool-encode" style="display:none;">
+                <p style="color: var(--text-dim);">Coming soon :3</p>
+            </div>
+        
         </div>
     </div>
 </div>

@@ -1,3 +1,15 @@
+document.querySelectorAll(".tool-link").forEach(link => {
+    link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const tool = link.dataset.tool;
+
+        document.querySelectorAll(".tool-link").forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+
+        document.querySelectorAll(".tool-section").forEach(s => s.style.display = "none");
+        document.getElementById("tool-" + tool).style.display = "block";
+    });
+});
 let selectedAlgo = "MD5";
 document.querySelectorAll(".algo-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -19,4 +31,37 @@ document.getElementById("run-hash").addEventListener("click", async () => {
     const data = await response.json();
     document.getElementById("hash-result").textContent = data.result;
     document.getElementById("hash-output").style.display = "block";
+});
+const passwordInput = document.getElementById("password-input");
+passwordInput.addEventListener("input", () => {
+    const pw = passwordInput.value;
+    if (!pw) {
+        document.getElementById("password-result").style.display = "none";
+        return;
+    }
+    document.getElementById("password-result").style.display = "block";
+    const checks = [
+        { label: "Length ≥ 8",            pass: pw.length >= 8 },
+        { label: "Length ≥ 14",           pass: pw.length >= 14 },
+        { label: "Uppercase letters",     pass: /[A-Z]/.test(pw) },
+        { label: "Numbers",               pass: /[0-9]/.test(pw) },
+        { label: "Special characters",    pass: /[^A-Za-z0-9]/.test(pw) },
+    ];
+    const score = checks.filter(c => c.pass).length;
+    const colors = ["", "#ef4444", "#f97316", "#eab308", "#4ade80", "#22d3ee"];
+    const labels = ["", "Weak", "Weak", "Moderate", "Strong", "Very Strong"];
+    for (let i = 1; i <= 5; i++) {
+        const bar = document.getElementById("bar-" + i);
+        bar.style.background = i <= score ? colors[score] : "#1e1e1e";
+    }
+    document.getElementById("strength-label").textContent = labels[score];
+    document.getElementById("strength-label").style.color = colors[score];
+    const checklist = document.getElementById("checklist");
+    checklist.innerHTML = "";
+    checks.forEach(c => {
+        const item = document.createElement("div");
+        item.className = "check-item";
+        item.innerHTML = `<span style="color: ${c.pass ? "#4ade80" : "#ef4444"}">${c.pass ? "✓" : "✗"}</span> ${c.label}`;
+        checklist.appendChild(item);
+    });
 });
