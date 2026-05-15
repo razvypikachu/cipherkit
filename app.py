@@ -1,5 +1,6 @@
 from flask import Flask, render_template,request, jsonify
 import hashlib
+import requests
 
 app = Flask(__name__)
 
@@ -22,5 +23,26 @@ def hash_text():
         result = "unsupported algorithm"
     return jsonify({"result": result})
 
+@app.route("/advanced")
+def advanced():
+    return render_template("advanced.html")
+@app.route("/checkpwned", methods=["POST"])
+def check_pwned():
+    data = request.get_json()
+    password = data["password"]
+    
+    sha1 = hashlib.sha1(password.encode()).hexdigest().upper()
+    prefix = sha1[:5]
+    suffix = sha1[5:]
+    
+    response = requests.get(f"https://api.pwnedpasswords.com/range/{prefix}")
+    hashes = response.text.splitlines()
+    
+    for line in hashes:
+        h, count = line.split(":")
+        if h == suffix:
+            return jsonify({"count": int(count)})
+    
+    return jsonify({"count": 0})
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

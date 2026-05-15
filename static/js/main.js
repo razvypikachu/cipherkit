@@ -108,3 +108,27 @@ document.getElementById("run-encode").addEventListener("click", () => {
     document.getElementById("encode-result").textContent = result;
     document.getElementById("encode-output").style.display = "block";
 });
+document.getElementById("run-pwned").addEventListener("click", async () => {
+    const password = document.getElementById("password-input").value;
+    if (!password) return;
+
+    const output = document.getElementById("pwned-output");
+    output.style.display = "block";
+    output.textContent = "Checking...";
+
+    const response = await fetch("/checkpwned", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password })
+    });
+
+    const data = await response.json();
+
+    if (data.count === 0) {
+        output.style.color = "#4ade80";
+        output.textContent = "✓ Not found in any known data breaches.";
+    } else {
+        output.style.color = "#ef4444";
+        output.textContent = `⚠ Found ${data.count.toLocaleString()} times in known data breaches.`;
+    }
+});

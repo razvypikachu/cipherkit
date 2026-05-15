@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-section-label">ADVANCED MODULES</div>
+        <nav class="tool-nav">
+            <a href="#" class="tool-link active" data-tool="nmap">
+                <span class="tool-icon">◈</span>
+                <div>
+                    <div>Nmap</div>
+                    <div class="tool-desc">Network scanner</div>
+                </div>
+            </a>
+            <a href="#" class="tool-link" data-tool="whois">
+                <span class="tool-icon">◎</span>
+                <div>
+                    <div>Whois</div>
+                    <div class="tool-desc">Domain lookup</div>
+                </div>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="tool-panel">
+        <div class="tool-panel-header">
+            <span class="tool-panel-path">~/cipherkit/advanced/</span>
+            <span class="tool-panel-name" id="panel-title">Nmap</span>
+        </div>
+        <div class="tool-panel-body">
+            <p style="color: var(--text-dim);">Coming soon.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
