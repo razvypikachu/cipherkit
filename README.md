@@ -1,5 +1,7 @@
 # CipherKit
 
+> README for dummies with installation commands and tool descriptions.
+
 A web-based cybersecurity toolkit built with Flask. Includes lightweight browser tools and advanced tools powered by real security utilities.
 
 ## Tools
