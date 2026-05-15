@@ -321,6 +321,40 @@ input[type="password"]:focus, input[type="text"]:focus {
     background: var(--accent-dim);
     color: var(--accent);
 }
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.terminal-output {
+    margin-top: 16px;
+    background: #020202;
+    border: 1px solid #0f0f0f;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: #7a7a7a;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.warning-badge {
+    margin-left: auto;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: #1a0a00;
+    border: 1px solid #7c2d12;
+    font-size: 10px;
+    color: var(--warning);
+}
 main {
     padding: 32px 24px;
     max-width: 1100px;

@@ -26,11 +26,32 @@
         <div class="tool-panel-header">
             <span class="tool-panel-path">~/cipherkit/advanced/</span>
             <span class="tool-panel-name" id="panel-title">Nmap</span>
+            <div class="warning-badge" id="warning-badge">⚠ Use responsibly</div>
         </div>
         <div class="tool-panel-body">
-            <p style="color: var(--text-dim);">Coming soon.</p>
+            <div class="tool-section" id="tool-nmap">
+                <div class="input-group">
+                    <div class="input-label">TARGET HOST / IP</div>
+                    <input type="text" id="nmap-target" placeholder="e.g. scanme.nmap.org">
+                </div>
+                <div class="input-group">
+                    <div class="input-label">FLAGS (OPTIONAL)</div>
+                    <input type="text" id="nmap-flags" placeholder="e.g. -sV -p 80,443">
+                </div>
+                <button class="run-btn" id="run-nmap">▶ EXECUTE</button>
+                <div class="terminal-output" id="nmap-output" style="display:none;"></div>
+            </div>
+            <div class="tool-section" id="tool-whois" style="display:none;">
+                <div class="input-group">
+                    <div class="input-label">DOMAIN NAME</div>
+                    <input type="text" id="whois-target" placeholder="e.g. google.com">
+                </div>
+                <button class="run-btn" id="run-whois">▶ EXECUTE</button>
+                <div class="terminal-output" id="whois-output" style="display:none;"></div>
+            </div>
+
         </div>
     </div>
 </div>
-
+<script src="{{ url_for('static', filename='js/advanced.js') }}"></script>
 {% endblock %}
