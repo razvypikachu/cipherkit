@@ -355,6 +355,99 @@ input[type="password"]:focus, input[type="text"]:focus {
     font-size: 10px;
     color: var(--warning);
 }
+.about-container {
+    max-width: 800px;
+}
+
+.about-header {
+    margin-bottom: 40px;
+}
+
+.about-title {
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.about-subtitle {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+}
+
+.about-section {
+    margin-bottom: 36px;
+}
+
+.section-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+}
+
+.tool-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tool-card {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.tool-card-icon {
+    font-size: 20px;
+    color: var(--accent);
+    width: 28px;
+    flex-shrink: 0;
+}
+
+.tool-card-name {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.tool-card-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.7;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-item {
+    padding: 4px 14px;
+    background: var(--accent-dim);
+    border: 1px solid #1a3a1a;
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--accent);
+}
+
+.github-link {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid #1a3a1a;
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+}
+
+.github-link:hover {
+    border-color: var(--accent);
+}
 main {
     padding: 32px 24px;
     max-width: 1100px;

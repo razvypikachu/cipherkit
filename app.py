@@ -63,5 +63,8 @@ def run_whois():
     result = subprocess.run(["whois", target], capture_output=True, text=True, timeout=10)
     
     return jsonify({"output": result.stdout or result.stderr})
+@app.route("/about")
+def about():
+    return render_template("about.html")
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

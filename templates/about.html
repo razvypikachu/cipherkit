@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="about-container">
+    <div class="about-header">
+        <h1 class="about-title">About CipherKit</h1>
+        <p class="about-subtitle">A web-based cybersecurity toolkit built with Flask, designed for security enthusiasts and students.</p>
+    </div>
+
+    <div class="about-section">
+        <div class="section-label">LIGHTWEIGHT TOOLS</div>
+        <div class="tool-cards">
+            <div class="tool-card">
+                <div class="tool-card-icon">#</div>
+                <div>
+                    <div class="tool-card-name">Hash Checker</div>
+                    <div class="tool-card-desc">Generate MD5, SHA256, and SHA512 hashes from any text input. Useful for verifying file integrity and understanding how hashing algorithms work.</div>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-card-icon">⬛</div>
+                <div>
+                    <div class="tool-card-name">Password Strength</div>
+                    <div class="tool-card-desc">Analyze password strength in real time based on length, complexity, and character variety. Also checks against the Have I Been Pwned database to see if the password has appeared in known data breaches.</div>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-card-icon">⇌</div>
+                <div>
+                    <div class="tool-card-name">Encoder / Decoder</div>
+                    <div class="tool-card-desc">Encode and decode text using Base64, Hex, and URL encoding. Commonly used in web security, CTF challenges, and data transmission.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <div class="section-label">ADVANCED TOOLS</div>
+        <div class="tool-cards">
+            <div class="tool-card">
+                <div class="tool-card-icon">◈</div>
+                <div>
+                    <div class="tool-card-name">Nmap</div>
+                    <div class="tool-card-desc">Run network scans against a target host or IP. Discovers open ports, running services, and host information. Only use against systems you own or have permission to scan.</div>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-card-icon">◎</div>
+                <div>
+                    <div class="tool-card-name">Whois</div>
+                    <div class="tool-card-desc">Look up registration information for any domain — owner details, registrar, creation date, and nameservers.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <div class="section-label">TECH STACK</div>
+        <div class="tech-stack">
+            <div class="tech-item">Python</div>
+            <div class="tech-item">Flask</div>
+            <div class="tech-item">HTML / CSS</div>
+            <div class="tech-item">JavaScript</div>
+            <div class="tech-item">Docker</div>
+            <div class="tech-item">Nmap</div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <div class="section-label">AUTHOR</div>
+        <a href="https://github.com/razvypikachu" target="_blank" class="github-link">
+            ⬡ github.com/razvypikachu
+        </a>
+    </div>
+</div>
+
+{% endblock %}
