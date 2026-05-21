@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="contact-container">
+    <h1 class="about-title">Contact</h1>
+    <p class="about-subtitle">Have a question, suggestion, or found a bug? Send a message.</p>
+
+    <div class="contact-form">
+        <div class="input-group">
+            <div class="input-label">NAME</div>
+            <input type="text" id="contact-name" placeholder="Your name">
+        </div>
+        <div class="input-group">
+            <div class="input-label">EMAIL</div>
+            <input type="email" id="contact-email" placeholder="your@email.com">
+        </div>
+        <div class="input-group">
+            <div class="input-label">MESSAGE</div>
+            <textarea id="contact-message" placeholder="Your message..."></textarea>
+        </div>
+        <button class="run-btn" id="contact-submit">SEND →</button>
+        <div id="contact-success" class="output-box" style="display:none; margin-top:16px;">
+            ✓ Message sent successfully.
+        </div>
+    </div>
+
+    <div class="contact-footer">
+        <div class="section-label">OR FIND ME ON</div>
+        <a href="https://github.com/razvypikachu" target="_blank" class="github-link">
+            ⬡ github.com/razvypikachu
+        </a>
+    </div>
+</div>
+
+{% endblock %}

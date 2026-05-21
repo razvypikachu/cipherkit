@@ -20,6 +20,7 @@
             <a href="/about" class="{{ 'active' if request.endpoint == 'about' }}">About</a>
             <a href="/contact" class="{{ 'active' if request.endpoint == 'contact' }}">Contact</a>
         </nav>
+        <button id="theme-toggle" class="theme-btn">☀</button>
     </header>
     <main>
         {% block content %}{% endblock %}

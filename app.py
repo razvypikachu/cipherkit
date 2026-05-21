@@ -45,7 +45,6 @@ def check_pwned():
     
     return jsonify({"count": 0})
 @app.route("/run/nmap", methods=["POST"])
-@app.route("/run/nmap", methods=["POST"])
 def run_nmap():
     data = request.get_json()
     target = data["target"]
@@ -66,5 +65,8 @@ def run_whois():
 @app.route("/about")
 def about():
     return render_template("about.html")
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

@@ -1,7 +1,54 @@
+const themeBtn = document.getElementById("theme-toggle");
+if (themeBtn) {
+    const saved = localStorage.getItem("theme");
+    if (saved === "light") {
+        document.body.classList.add("light");
+        themeBtn.textContent = "☾";
+    }
+    themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light");
+        const isLight = document.body.classList.contains("light");
+        themeBtn.textContent = isLight ? "☾" : "☀";
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+    });
+}
+function getCounts() {
+    return JSON.parse(localStorage.getItem("toolCounts") || "{}");
+}
+
+function incrementCount(tool) {
+    const counts = getCounts();
+    counts[tool] = (counts[tool] || 0) + 1;
+    localStorage.setItem("toolCounts", JSON.stringify(counts));
+}
+
+function sortSidebar() {
+    const counts = getCounts();
+    const nav = document.querySelector(".tool-nav");
+    if (!nav) return;
+
+    const links = Array.from(nav.querySelectorAll(".tool-link"));
+    links.sort((a, b) => {
+        const countA = counts[a.dataset.tool] || 0;
+        const countB = counts[b.dataset.tool] || 0;
+        return countB - countA;
+    });
+
+    links.forEach(link => {
+        const countEl = link.querySelector(".tool-count");
+        const count = counts[link.dataset.tool] || 0;
+        if (countEl) countEl.textContent = count > 0 ? count : "";
+        nav.appendChild(link);
+    });
+}
+
 document.querySelectorAll(".tool-link").forEach(link => {
     link.addEventListener("click", (e) => {
         e.preventDefault();
         const tool = link.dataset.tool;
+
+        incrementCount(tool);
+        sortSidebar();
 
         document.querySelectorAll(".tool-link").forEach(l => l.classList.remove("active"));
         link.classList.add("active");
@@ -23,11 +70,34 @@ document.querySelectorAll(".algo-btn").forEach((btn) => {
     });
 });
 
+function showError(elementId, message) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.style.display = "block";
+    el.style.color = "#ef4444";
+    el.style.borderColor = "#3a1a1a";
+    el.innerHTML = `⚠ ${message}`;
+}
+
+function clearError(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.style.display = "none";
+    el.style.color = "";
+    el.style.borderColor = "";
+    el.innerHTML = "";
+}
+
 const runHash = document.getElementById("run-hash");
 if (runHash) {
     runHash.addEventListener("click", async () => {
         const text = document.getElementById("hash-input").value;
-        if (!text) return;
+        if (!text) {
+            showError("hash-output", "Please enter some text before hashing.");
+            document.getElementById("hash-result").textContent = "";
+            return;
+        }
+        clearError("hash-output");
 
         const response = await fetch("/hash", {
             method: "POST",
@@ -36,8 +106,11 @@ if (runHash) {
         });
 
         const data = await response.json();
-        document.getElementById("hash-result").textContent = data.result;
-        document.getElementById("hash-output").style.display = "block";
+        const output = document.getElementById("hash-output");
+        output.style.display = "block";
+        output.style.color = "#4ade80";
+        output.style.borderColor = "";
+        output.innerHTML = `<span style="color:#333; margin-right:8px;">${selectedAlgo}:</span>${data.result}`;
     });
 }
 
@@ -99,7 +172,11 @@ const runEncode = document.getElementById("run-encode");
 if (runEncode) {
     runEncode.addEventListener("click", () => {
         const text = document.getElementById("encode-input").value;
-        if (!text) return;
+        if (!text) {
+            showError("encode-output", "Please enter some text before encoding/decoding.");
+            document.getElementById("encode-result").textContent = "";
+            return;
+        }
 
         let result;
         try {
@@ -113,11 +190,16 @@ if (runEncode) {
                 result = selectedMode === "encode" ? encodeURIComponent(text) : decodeURIComponent(text);
             }
         } catch {
-            result = "⚠ Invalid input for this operation";
+            showError("encode-output", "Invalid input for this operation. Check your input and try again.");
+            document.getElementById("encode-result").textContent = "";
+            return;
         }
 
+        const output = document.getElementById("encode-output");
+        output.style.display = "block";
+        output.style.color = "#4ade80";
+        output.style.borderColor = "";
         document.getElementById("encode-result").textContent = result;
-        document.getElementById("encode-output").style.display = "block";
     });
 }
 
@@ -125,26 +207,71 @@ const runPwned = document.getElementById("run-pwned");
 if (runPwned) {
     runPwned.addEventListener("click", async () => {
         const password = document.getElementById("password-input").value;
-        if (!password) return;
+        if (!password) {
+            showError("pwned-output", "Please enter a password to check.");
+            return;
+        }
 
         const output = document.getElementById("pwned-output");
         output.style.display = "block";
+        output.style.color = "#555";
+        output.style.borderColor = "";
         output.textContent = "Checking...";
 
-        const response = await fetch("/checkpwned", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password: password })
-        });
+        try {
+            const response = await fetch("/checkpwned", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password: password })
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (data.count === 0) {
-            output.style.color = "#4ade80";
-            output.textContent = "✓ Not found in any known data breaches.";
-        } else {
-            output.style.color = "#ef4444";
-            output.textContent = `⚠ Found ${data.count.toLocaleString()} times in known data breaches.`;
+            if (data.count === 0) {
+                output.style.color = "#4ade80";
+                output.textContent = "✓ Not found in any known data breaches.";
+            } else {
+                output.style.color = "#ef4444";
+                output.textContent = `⚠ Found ${data.count.toLocaleString()} times in known data breaches. Consider using a different password.`;
+            }
+        } catch {
+            showError("pwned-output", "Could not reach the breach database. Check your internet connection and try again.");
         }
     });
 }
+
+const contactSubmit = document.getElementById("contact-submit");
+if (contactSubmit) {
+    contactSubmit.addEventListener("click", () => {
+        const name = document.getElementById("contact-name").value.trim();
+        const email = document.getElementById("contact-email").value.trim();
+        const message = document.getElementById("contact-message").value.trim();
+
+        const success = document.getElementById("contact-success");
+
+        if (!name || !email || !message) {
+            success.style.display = "block";
+            success.style.color = "#ef4444";
+            success.style.borderColor = "#3a1a1a";
+            success.textContent = "⚠ Please fill in all fields before sending.";
+            return;
+        }
+
+        if (!email.includes("@") || !email.includes(".")) {
+            success.style.display = "block";
+            success.style.color = "#ef4444";
+            success.style.borderColor = "#3a1a1a";
+            success.textContent = "⚠ Please enter a valid email address.";
+            return;
+        }
+
+        success.style.display = "block";
+        success.style.color = "#4ade80";
+        success.style.borderColor = "";
+        success.textContent = "✓ Message sent successfully.";
+        contactSubmit.textContent = "SENT ✓";
+        contactSubmit.disabled = true;
+    });
+}
+
+sortSidebar();
