@@ -12,6 +12,7 @@ if (themeBtn) {
         localStorage.setItem("theme", isLight ? "light" : "dark");
     });
 }
+
 function getCounts() {
     return JSON.parse(localStorage.getItem("toolCounts") || "{}");
 }
@@ -42,6 +43,30 @@ function sortSidebar() {
     });
 }
 
+function addCopyButton(outputId, getTextFn) {
+    const output = document.getElementById(outputId);
+    if (!output) return;
+
+    const existing = output.querySelector(".copy-btn");
+    if (existing) existing.remove();
+
+    const btn = document.createElement("button");
+    btn.className = "copy-btn";
+    btn.textContent = "COPY";
+    btn.addEventListener("click", () => {
+        const text = getTextFn();
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = "COPIED ✓";
+            btn.style.color = "#4ade80";
+            setTimeout(() => {
+                btn.textContent = "COPY";
+                btn.style.color = "";
+            }, 1500);
+        });
+    });
+    output.appendChild(btn);
+}
+
 document.querySelectorAll(".tool-link").forEach(link => {
     link.addEventListener("click", (e) => {
         e.preventDefault();
@@ -54,7 +79,14 @@ document.querySelectorAll(".tool-link").forEach(link => {
         link.classList.add("active");
 
         document.querySelectorAll(".tool-section").forEach(s => s.style.display = "none");
-        document.getElementById("tool-" + tool).style.display = "block";
+        const toolEl = document.getElementById("tool-" + tool);
+        if (toolEl) {
+            toolEl.style.display = "block";
+            toolEl.classList.remove("tool-fade");
+            void toolEl.offsetWidth;
+            toolEl.classList.add("tool-fade");
+        }
+
         const titles = { hash: "Hash Checker", password: "Password Strength", encode: "Encoder / Decoder" };
         const panelTitle = document.getElementById("panel-title");
         if (panelTitle) panelTitle.textContent = titles[tool];
@@ -99,6 +131,9 @@ if (runHash) {
         }
         clearError("hash-output");
 
+        runHash.textContent = "COMPUTING...";
+        runHash.disabled = true;
+
         const response = await fetch("/hash", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -106,11 +141,16 @@ if (runHash) {
         });
 
         const data = await response.json();
+        runHash.textContent = "HASH →";
+        runHash.disabled = false;
+
         const output = document.getElementById("hash-output");
         output.style.display = "block";
         output.style.color = "#4ade80";
         output.style.borderColor = "";
-        output.innerHTML = `<span style="color:#333; margin-right:8px;">${selectedAlgo}:</span>${data.result}`;
+        output.innerHTML = `<span style="color:#333; margin-right:8px;">${selectedAlgo}:</span><span id="hash-result-text">${data.result}</span>`;
+
+        addCopyButton("hash-output", () => data.result);
     });
 }
 
@@ -200,6 +240,8 @@ if (runEncode) {
         output.style.color = "#4ade80";
         output.style.borderColor = "";
         document.getElementById("encode-result").textContent = result;
+
+        addCopyButton("encode-output", () => result);
     });
 }
 
@@ -217,6 +259,9 @@ if (runPwned) {
         output.style.color = "#555";
         output.style.borderColor = "";
         output.textContent = "Checking...";
+
+        runPwned.textContent = "CHECKING...";
+        runPwned.disabled = true;
 
         try {
             const response = await fetch("/checkpwned", {
@@ -237,6 +282,9 @@ if (runPwned) {
         } catch {
             showError("pwned-output", "Could not reach the breach database. Check your internet connection and try again.");
         }
+
+        runPwned.textContent = "CHECK IF PWNED →";
+        runPwned.disabled = false;
     });
 }
 
